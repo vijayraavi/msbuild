@@ -130,13 +130,6 @@ jobs:
       ArtifactName: logs
     condition: succeededOrFailed()
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: bin'
-    inputs:
-      PathtoPublish: 'artifacts\bin'
-      ArtifactName: bin
-    condition: succeededOrFailed()
-
   # Publishes setup VSIXes to a drop.
   # Note: The insertion tool looks for the display name of this task in the logs.
   - task: ms-vseng.MicroBuildTasks.4305a8de-ba66-4d8b-b2d1-0dc4ecbbf5e8.MicroBuildUploadVstsDropFolder@1
@@ -162,29 +155,6 @@ jobs:
       ArtifactName: Packages
     condition: succeeded()
 
-  # Publish Asset Manifests for Build Asset Registry job
-  - task: PublishBuildArtifacts@1
-    displayName: Publish Asset Manifests
-    inputs:
-      PathtoPublish: '$(Build.SourcesDirectory)/artifacts/log/$(BuildConfiguration)/AssetManifest'
-      ArtifactName: AssetManifests
-    condition: succeeded()
-
-  # Tag the build at the very end when we know it's been successful.
-  - task: colinsalmcorner.colinsalmcorner-buildtasks.tag-build-task.tagBuildOrRelease@0
-    displayName: Tag build as ready for optimization training
-    inputs:
-      tags: 'ready-for-training'
-    condition: succeeded()
-
   - task: ms-vseng.MicroBuildTasks.521a94ea-9e68-468a-8167-6dcf361ea776.MicroBuildCleanup@1
     displayName: Execute cleanup tasks
     condition: succeededOrFailed()
-
-- template: /eng/common/templates/job/publish-build-assets.yml
-  parameters:
-    enablePublishBuildArtifacts: true
-    dependsOn:
-      - Windows_NT
-    pool:
-      vmImage: vs2017-win2016
