@@ -31,5 +31,7 @@
   <!-- Toolset Dependencies -->
   <PropertyGroup>
     <DotNetCliVersion>3.0.100-preview5-011568</DotNetCliVersion>
+    <!-- Workaround for https://github.com/dotnet/arcade/issues/2944; remove after Arcade updates past this. -->
+    <MicrosoftDotNetBuildTasksFeedVersion>2.2.0-beta.19306.14</MicrosoftDotNetBuildTasksFeedVersion>
   </PropertyGroup>
 </Project>
